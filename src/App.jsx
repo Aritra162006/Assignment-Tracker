@@ -10,11 +10,26 @@ export default function App() {
 
   function add() {
     return (
-      setAssignments([...assignments, {id:Date.now(), task:input, due:due, priority:priority}]),
+      setAssignments([...assignments, {id:Date.now(), task:input, due:due, priority:priority, completed:false}]),
       setInput(""),
       setDue(""),
       setPriority("Select Priority"))
 
+  }
+
+  function toggleCompleted(idToChange) {
+    let res =  assignments.map((ele2)=>{
+      let ele3 = {...ele2}
+      if (ele3.id==idToChange){
+        ele3.completed=!ele3.completed
+      }
+
+      return ele3
+
+    })
+
+    setAssignments(res)
+    
   }
 
   return (
@@ -52,7 +67,8 @@ export default function App() {
 
       {assignments.map((ele)=>{
         return <div key={ele.id}>
-          <DisplayCard assignment={ele}/>
+          
+          <DisplayCard assignment={ele} toggle={toggleCompleted}/>
           </div>
       })}
         
