@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
 import DisplayCard from './Components/displayCard'
 
 const assignmentKey = "Tasks"
@@ -16,7 +17,7 @@ export default function App() {
     }
     return JSON.parse(rawData)
   })
-  
+
 
   function add() {
     return (
