@@ -32,6 +32,19 @@ export default function App() {
     
   }
 
+
+  function deleteAssignment(idToDelete) {
+    let res = assignments.filter((ele)=>{
+      if (ele.id==idToDelete){
+        return false
+      }
+      return true
+      
+    })
+    setAssignments(res)
+    
+  }
+
   return (
     <div>
       <h1>Assignment Tracker</h1>
@@ -67,8 +80,8 @@ export default function App() {
 
       {assignments.map((ele)=>{
         return <div key={ele.id}>
-          
-          <DisplayCard assignment={ele} toggle={toggleCompleted}/>
+
+          <DisplayCard assignment={ele} toggle={toggleCompleted} del={deleteAssignment}/>
           </div>
       })}
         
