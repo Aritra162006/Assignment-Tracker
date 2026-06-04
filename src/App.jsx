@@ -1,12 +1,22 @@
 import { useState } from 'react'
 import DisplayCard from './Components/displayCard'
 
+const assignmentKey = "Tasks"
+
 export default function App() {
 
   let [input, setInput] = useState('')
   let [due , setDue] = useState("")
   let [priority , setPriority] = useState("Select Priority")
-  let [assignments, setAssignments] = useState([])
+
+  let [assignments, setAssignments] = useState(()=>{
+    let rawData = localStorage.getItem(assignmentKey)
+    if (!rawData){
+      return []
+    }
+    return JSON.parse(rawData)
+  })
+  
 
   function add() {
     return (
@@ -45,6 +55,10 @@ export default function App() {
     
   }
 
+  useEffect(()=>{
+    localStorage.setItem(assignmentKey, JSON.stringify(assignments))},[assignments])
+
+
   return (
     <div>
       <h1>Assignment Tracker</h1>
@@ -77,8 +91,9 @@ export default function App() {
 
       <button onClick={add}>Add</button>
 
-
+        
       {assignments.map((ele)=>{
+        
         return <div key={ele.id}>
 
           <DisplayCard assignment={ele} toggle={toggleCompleted} del={deleteAssignment}/>
