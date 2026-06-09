@@ -1,107 +1,24 @@
-import { useState, useEffect } from 'react'
-
-import DisplayCard from './Components/displayCard'
-
-const assignmentKey = "Tasks"
+import { Link, Route, Routes } from 'react-router-dom'
+import Dashboard from './route_pages/Dashboard'
+import Assignments from './route_pages/Assignments'
+import CreateAssignment from './route_pages/CreateAssignment'
 
 export default function App() {
-
-  let [input, setInput] = useState('')
-  let [due , setDue] = useState("")
-  let [priority , setPriority] = useState("Select Priority")
-
-  let [assignments, setAssignments] = useState(()=>{
-    let rawData = localStorage.getItem(assignmentKey)
-    if (!rawData){
-      return []
-    }
-    return JSON.parse(rawData)
-  })
-
-
-  function add() {
-    return (
-      setAssignments([...assignments, {id:Date.now(), task:input, due:due, priority:priority, completed:false}]),
-      setInput(""),
-      setDue(""),
-      setPriority("Select Priority"))
-
-  }
-
-  function toggleCompleted(idToChange) {
-    let res =  assignments.map((ele2)=>{
-      let ele3 = {...ele2}
-      if (ele3.id==idToChange){
-        ele3.completed=!ele3.completed
-      }
-
-      return ele3
-
-    })
-
-    setAssignments(res)
-    
-  }
-
-
-  function deleteAssignment(idToDelete) {
-    let res = assignments.filter((ele)=>{
-      if (ele.id==idToDelete){
-        return false
-      }
-      return true
-      
-    })
-    setAssignments(res)
-    
-  }
-
-  useEffect(()=>{
-    localStorage.setItem(assignmentKey, JSON.stringify(assignments))},[assignments])
-
-
   return (
     <div>
       <h1>Assignment Tracker</h1>
 
-      <h3>Assignment:</h3>
-      <input value={input} onChange={(e)=>setInput(e.target.value)}/>
+      <nav style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+        <Link to="/">Dashboard</Link>
+        <Link to="/assignments">Assignments</Link>
+        <Link to="/create">Create Assignment</Link>
+      </nav>
 
-
-      <br />
-
-      <h3>Due Date:</h3>
-      <input type="date" value={due} onChange={(e)=>setDue(e.target.value)}/>
-
-
-      <br />
-
-      <h3>Priority:</h3>
-      <select value={priority} onChange={(e)=>setPriority(e.target.value)}>
-        <option>Select priority</option>
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-      </select>
-
-
-
-
-      <br />
-      <br />
-
-      <button onClick={add}>Add</button>
-
-        
-      {assignments.map((ele)=>{
-        
-        return <div key={ele.id}>
-
-          <DisplayCard assignment={ele} toggle={toggleCompleted} del={deleteAssignment}/>
-          </div>
-      })}
-        
-      
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/assignments" element={<Assignments />} />
+        <Route path="/create" element={<CreateAssignment />} />
+      </Routes>
     </div>
   )
 }
