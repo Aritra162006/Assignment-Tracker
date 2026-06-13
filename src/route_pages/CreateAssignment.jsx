@@ -1,7 +1,65 @@
-export default function CreateAssignment() {
+import { useState, useEffect } from 'react';
+import DisplayCard from '../Components/displayCard';
+
+const assignmentKey = 'Tasks';
+
+export default function CreateAssignment({ assignments, setAssignments }) {
+
+
+    let [input, setInput] = useState('')
+    let [due, setDue] = useState('')
+    let [priority, setPriority] = useState('Select Priority')
+
+    function add() {
+    return (
+      setAssignments([
+        ...assignments,
+        {
+          id: Date.now(),
+          task: input,
+          due: due,
+          priority: priority,
+          completed: false,
+        },
+      ]),
+      setInput(''),
+      setDue(''),
+      setPriority('Select Priority')
+    )
+    }
+
+
+
   return (
     <div>
       <h1>Create Assignment</h1>
-    </div>
-  );
+
+      <h3>Assignment:</h3>
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
+
+      <br />
+
+      <h3>Due Date:</h3>
+      <input type="date" value={due} onChange={(e) => setDue(e.target.value)} />
+
+      <br />
+
+      <h3>Priority:</h3>
+      <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+        <option>Select priority</option>
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+
+      <h3>Subject:</h3>
+      
+
+      <br />
+      <br />
+
+      <button onClick={add}>Add</button>
+      </div>
+    )
+
 }
