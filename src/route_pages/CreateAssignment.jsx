@@ -9,6 +9,7 @@ export default function CreateAssignment({ assignments, setAssignments }) {
     let [input, setInput] = useState('')
     let [due, setDue] = useState('')
     let [priority, setPriority] = useState('Select Priority')
+    let [subject, setSubject] = useState('')
 
     function add() {
     return (
@@ -20,13 +21,14 @@ export default function CreateAssignment({ assignments, setAssignments }) {
           due: due,
           priority: priority,
           completed: false,
+          subject: subject
         },
       ]),
       setInput(''),
       setDue(''),
-      setPriority('Select Priority')
-    )
-    }
+      setPriority('Select Priority'),
+      setSubject('')
+    )}
 
 
 
@@ -53,6 +55,8 @@ export default function CreateAssignment({ assignments, setAssignments }) {
       </select>
 
       <h3>Subject:</h3>
+      <input type="text" value={subject} onChange={(e)=>setSubject(e.target.value)} />
+
       
 
       <br />
